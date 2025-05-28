@@ -41,16 +41,13 @@ jobs:
     needs: build
     environment:
       name: 'Production'
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: ASP-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -58,11 +55,11 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_EE464CE005CC44FCBEFBC399580D6670 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_AF572A39F95D4E3BB565366770F589DB }}
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: 'peer-marking'
-          slot-name: 'Production'
-          package: .
-          
+      - name: Deploy to Azure Web App via Azure CLI
+        run: |
+          az webapp deploy \
+            --resource-group YOUR_RESOURCE_GROUP_NAME \
+            --name peer-marking \
+            --src-path ./ASP-app \
+            --type zip
+
