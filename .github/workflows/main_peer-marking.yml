@@ -28,7 +28,7 @@ jobs:
         run: nuget restore InternshipBackEnd-main/PeerMarking.csproj
 
       - name: Publish to folder
-        run: msbuild InternshipBackEnd/peer-marking.csproj /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:PublishUrl=published /p:Configuration=Release
+        run: msbuild InternshipBackEnd/PeerMarking.csproj /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:PublishUrl=published /p:Configuration=Release
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
